@@ -96,6 +96,10 @@ curl http://us.centos.bz/cdnfly/restore_master.sh -o restore_master.sh;
 chmod +x restore_master.sh;
 ./restore_master.sh;
 ```
+### 卸载节点
+```bash
+cd /tmp/ && curl -m 5 http://dl2.cdnfly.cn/cdnfly/agent_uninstall.sh -o agent_uninstall.sh || curl -m 5 http://us.centos.bz/cdnfly/agent_uninstall.sh && chmod +x agent_uninstall.sh && ./agent_uninstall.sh
+```
 ### Cdnfly监控设置
 尊敬的cdnfly用户:
 为防止重启节点，Nginx服务启动不起来，可以在节点Tcp监控设置里面把主IP的监控端口设置为5000
