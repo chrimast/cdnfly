@@ -109,3 +109,10 @@ cd /tmp/ && curl -m 5 http://dl2.cdnfly.cn/cdnfly/agent_uninstall.sh -o agent_un
 尊敬的cdnfly用户:
 目前发现登录安全漏洞，需要及时按照如下方法来临时修复。找一个只有你知道的域名,这个域名用于管理员登录。
 路径为:系统管理--->系统设置--->用户相关，限制管理员只能从此域名登录
+
+#### 参考
+http://doc.cdnfly.cn/
+https://hostloc.com/thread-1044609-1-1.html
+https://github.com/Steady-WJ/cdnfly-kaixin
+https://blog.tanglu.me/cdnfly
+https://www.thsink.com/notes/1165/
