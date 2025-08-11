@@ -4,7 +4,7 @@
 请支持正版 本站仅用于学习研究 不可用于商用以及违法用途<br />
 现在可以直接输入命令进行一键安装!!!<br />
 
-### 免费添加白名单地址：<br />
+### 自主添加白名单地址：<br />
 ```bash
 https://cdnfly522.5205230.xyz
 ```
@@ -70,7 +70,7 @@ supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf restart all
 ```bash
 supervisorctl -c /opt/cdnfly/agent/conf/supervisord.conf restart all
 ```
-### 如何初始化elasticsearch
+### 初始化elasticsearch
 ```bash
 cd /tmp;
 wget http://us.centos.bz/cdnfly/int_es.sh -O int_es.sh;
