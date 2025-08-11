@@ -2,25 +2,30 @@
 主控版本：5.2.2<br />
 被控版本：5.1.19<br />
 请支持正版 本站仅用于学习研究 不可用于商用以及违法用途<br />
-现在只需要运行脚本就可以安装!!!<br />
-可以直接输入命令进行安装<br />
-CentOS7更换镜像源<br />
+现在可以直接输入命令进行一键安装!!!<br />
+
 ### 免费添加白名单地址：<br />
 ```bash
 https://cdnfly522.5205230.xyz
 ```
 <u>账号密码都是admin</u><br />
 
-### 一键换源：<br />
-
-```bash
-bash <(curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh)
-```
-
 ### 安装cdnfly控制面板<br />
-
 ```bash
 curl -fsSL https://github.com/xcazt/cdnfly522/raw/refs/heads/main/master.sh -o master.sh && chmod +x master.sh && ./master.sh --es-dir /home/es
+```
+
+<p>确保主控和被控均没有安装nginx且80 443端口未被占用!!!<br />
+主控只支持Cetnos7系列系统<br />
+被控只支持Cetnos7系列和ubnutu16.04系统<br />
+主控需开放80 88 443 9200端口<br />
+节点需要开放 80 443 5000端口<br />
+初始化管理员账号：admin<br/>
+初始化管理员密码：cdnfly</p>
+
+### 一键换源脚本：<br />
+```bash
+bash <(curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh)
 ```
 ### DD镜像Ubnutu16.04
 ```bash
@@ -33,14 +38,6 @@ bash reinstall.sh ubuntu 16.04
 reboot
 ```
 然后等个十几分钟装好后,账号：root,密码：123@@@
-
-<p>主控和被控均不能在 已安装nginx的情况下 执行安装命令，必须确保80 443端口未被占用!!!<br />
-主控只支持Cetnos7系列系统<br />
-被控只支持Cetnos7系列和ubnutu16.04系统<br />
-主控需开放80 88 443 9200端口<br />
-节点需要开放 80 443 5000端口<br />
-初始化管理员账号：admin<br/>
-初始化管理员密码：cdnfly</p>
 
 
 ###  其他操作
@@ -63,8 +60,8 @@ supervisorctl -c /opt/cdnfly/agent/conf/supervisord.conf restart filebeat
 supervisorctl -c /opt/cdnfly/agent/conf/supervisord.conf restart agent
 supervisorctl -c /opt/cdnfly/agent/conf/supervisord.conf restart task
 ```
-## 重启进程
 
+## 重启进程
 ### 主控重启
 ```bash
 supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf restart all
