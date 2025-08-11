@@ -111,8 +111,8 @@ cd /tmp/ && curl -m 5 http://dl2.cdnfly.cn/cdnfly/agent_uninstall.sh -o agent_un
 路径为:系统管理--->系统设置--->用户相关，限制管理员只能从此域名登录
 
 #### 参考
-http://doc.cdnfly.cn/
-https://hostloc.com/thread-1044609-1-1.html
-https://github.com/Steady-WJ/cdnfly-kaixin
-https://blog.tanglu.me/cdnfly
-https://www.thsink.com/notes/1165/
+http://doc.cdnfly.cn/<br />
+https://hostloc.com/thread-1044609-1-1.html<br />
+https://github.com/Steady-WJ/cdnfly-kaixin<br />
+https://blog.tanglu.me/cdnfly<br />
+https://www.thsink.com/notes/1165/<br />
