@@ -21,20 +21,25 @@ nano /etc/hosts
 
 #### 2.主控
 v5.1.11版本安装脚本:
+
 curl -fsSL https://github.com/LoveesYe/cdnflydadao/raw/main/master.sh -o master.sh && chmod +x master.sh && ./master.sh --es-dir /home/es
 
 更新v5.1.13版本安装脚本:
+
 curl -fsSL https://github.com/chrimast/cdnfly/raw/main/cdnfly/v5.1.13/master/master.sh -o master.sh && chmod +x master.sh && ./master.sh --es-dir /home/es
 
 #### 3.被控
 v5.1.15版本安装脚本:
+
 curl -fsSL -m 5 https://github.com/LoveesYe/cdnflydadao/raw/main/agent/agent.sh -o agent.sh || curl -m 5 https://github.com/LoveesYe/cdnflydadao/raw/main/agent/agent.sh -o agent.sh  && chmod +x agent.sh && ./agent.sh --master-ver v5.1.11 --master-ip ip --es-ip ip --es-pwd passwd
 
 更新v5.1.16版本安装脚本:（修改 ip passwd 参数信息）
+
 curl -fsSL -m 5 https://github.com/chrimast/cdnfly/raw/main/cdnfly/v5.1.13/agent/agent.sh -o agent.sh || curl -m 5 https://github.com/chrimast/cdnfly/raw/main/cdnfly/v5.1.13/agent/agent.sh -o agent.sh  && chmod +x agent.sh && ./agent.sh --master-ver v5.1.13 --master-ip ip --es-ip ip --es-pwd passwd
 
 #### 4.已安装过官方版的开心方法：
 执行以下命令完成开心：
+
 wget https://github.com/LoveesYe/cdnflydadao/raw/main/cdnfly/api.py -O /opt/venv/lib/python2.7/site-packages/requests/api.py
 supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf reload
 
@@ -55,6 +60,7 @@ supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf reload
 支持多节点监控（和官方一样），要添加其它监控节点，可以编辑config.php配置文件，根据里面的注释说明添加。
 
 修改为你自身安装节点,或使用默认的github节点安装
+
 /opt/cdnfly/master/panel/src/views/system/update/index.html
 
 
@@ -62,22 +68,27 @@ supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf reload
 注意：下面的迁移步骤不包括迁移elasticsearch的数据
 #### 1 备份旧主控数据
 在旧主控执行如下命令开始备份（注意：备份前会停止旧主控的进程）
+
 cd /root
 curl http://us.centos.bz/cdnfly/backup_master.sh -o backup_master.sh
 chmod +x backup_master.sh
 ./backup_master.sh
 
 这时候将在目录/root下，打包生成cdn.sql.gz文件，请把这个文件传输到新主控的/root/目录下，可以使用scp命令，命令如下：
+
 cd /root
 scp cdn.sql.gz   root@新主控IP:/root/
 
 #### 2 在新机器安装好主控程序
 首先登录cdnfly.cn，更新授权为新主控ip，并清空机器码
 登录旧主控机器，执行如下命令查看版本:
+
 grep VERSION_NAME /opt/cdnfly/master/conf/config.py
+
 如下图，版本为v4.1.6：
 
 登录新机器，执行如下命令安装:
+
 curl http://dl.cdnfly.cn/cdnfly/master.sh -o master.sh
 chmod +x master.sh
 ./master.sh --ver v4.1.60
