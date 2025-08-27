@@ -92,26 +92,32 @@ grep VERSION_NAME /opt/cdnfly/master/conf/config.py
 curl http://dl.cdnfly.cn/cdnfly/master.sh -o master.sh
 chmod +x master.sh
 ./master.sh --ver v4.1.60
+
 其中v4.1.60替换成自己的主控版本号
 #### 3 登录新主控，恢复备份
 执行如下命令恢复备份
+
 cd /root
 curl http://us.centos.bz/cdnfly/restore_master.sh -o restore_master.sh
 chmod +x restore_master.sh
 ./restore_master.sh
+
 从旧主控下载/opt/cdnfly/master/conf/config.py上传到新主控覆盖
-然后在新主控初始化es,重启新主控
+然后在新主控初始化es,重启新主控。
 执行如下命令初始化:
+
 cd /tmp
 wget us.centos.bz/cdnfly/int_es.sh -O int_es.sh
 chmod +x int_es.sh
 ./int_es.sh /home/es
 supervisorctl restart all
+
 其中/var/lib/elasticsearch为es的数据目录，可以更改成其它的，比如/home/es
 
 #### 4 替换节点里的主控IP
 一个个登录节点，执行如下命令替换
 new_master_ip="这里替换为新主控IP"
+
 sed -i "s/ES_IP =.*/ES_IP = \"$new_master_ip\"/" /opt/cdnfly/agent/conf/config.py
 sed -i "s/MASTER_IP.*/MASTER_IP = \"$new_master_ip\"/g" /opt/cdnfly/agent/conf/config.py
 sed -i "s/hosts:.*/hosts: [\"$new_master_ip:9200\"]/" /opt/cdnfly/agent/conf/filebeat.yml
