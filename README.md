@@ -1,45 +1,39 @@
-v5.1.13版本主控已修改完毕，可以正常安装。
-## 服务器配置要求
-系统仅支持Centos-7和Ubuntu-16.04
-### 主控
+2025.8.27   v5.1.13版本ubuntu16.04主控已修改完毕，可以正常安装。
+#### 主控配置要求
 1.内存 - 因为主控安装有Elasticsearch，推荐16G及以上，如果网站访问量比较小，8G也行，至少4G。
 2.硬盘 - 建议固态硬盘, 同样考虑访问日志大小，推荐100G及以上，量小的话都可以。
 3.CPU - CPU至少2核
 4.开放80 88 9200端口
-### 节点
+5.系统仅支持Centos-7和Ubuntu-16.04
+#### 节点配置要求
 1.内存 - 至少2G及以上
 2.硬盘 - 根据网站缓存的大小配置
 3.CPU - Nginx主要是跑CPU，所以要想访问性能好，CPU尽量好点。
 4.开放80 443 5000端口
+5.系统仅支持Centos-7和Ubuntu-16.04
 
-## 官方最新公告
-尊敬的cdnfly用户:
-目前发现登录安全漏洞，需要及时按照如下方法来临时修复。找-个只有你知道的域名,这个域名用于管理员登录。
-如的域名，不用带http://,路径为:系统管理--->系统设置--->用户相关，限制管理员只能从此域名登录
-
-更新v5.1.13版本主控
-
-###1.主控服务器
+### 安装说明
+#### 1.主控验证服务器
 web目录为验证文件，请自行搭建
 0.0.0.0改成(自己搭建的验证服务器Ip)
 nano /etc/hosts
 0.0.0.0  auth.cdnfly.cn monitor.cdnfly.cn
 
-###2.主控
+#### 2.主控
 v5.1.11版本安装脚本:
 curl -fsSL https://github.com/LoveesYe/cdnflydadao/raw/main/master.sh -o master.sh && chmod +x master.sh && ./master.sh --es-dir /home/es
 
 更新v5.1.13版本安装脚本:
 curl -fsSL https://github.com/chrimast/cdnfly/raw/main/cdnfly/v5.1.13/master/master.sh -o master.sh && chmod +x master.sh && ./master.sh --es-dir /home/es
 
-###3.被控
+#### 3.被控
 v5.1.15版本安装脚本:
 curl -fsSL -m 5 https://github.com/LoveesYe/cdnflydadao/raw/main/agent/agent.sh -o agent.sh || curl -m 5 https://github.com/LoveesYe/cdnflydadao/raw/main/agent/agent.sh -o agent.sh  && chmod +x agent.sh && ./agent.sh --master-ver v5.1.11 --master-ip ip --es-ip ip --es-pwd passwd
 
-更新v5.1.16版本安装脚本:
-curl -fsSL -m 5 https://github.com/LoveesYe/cdnflydadao/raw/main/cdnfly/v5.1.13/agent/agent.sh -o agent.sh || curl -m 5 https://github.com/LoveesYe/cdnflydadao/raw/main/cdnfly/v5.1.13/agent/agent.sh -o agent.sh  && chmod +x agent.sh && ./agent.sh --master-ver v5.1.11 --master-ip ip --es-ip ip --es-pwd passwd
+更新v5.1.16版本安装脚本:（修改 ip passwd 参数信息）
+curl -fsSL -m 5 https://github.com/chrimast/cdnfly/raw/main/cdnfly/v5.1.13/agent/agent.sh -o agent.sh || curl -m 5 https://github.com/chrimast/cdnfly/raw/main/cdnfly/v5.1.13/agent/agent.sh -o agent.sh  && chmod +x agent.sh && ./agent.sh --master-ver v5.1.13 --master-ip ip --es-ip ip --es-pwd passwd
 
-###4.已安装过官方版的开心方法：
+#### 4.已安装过官方版的开心方法：
 执行以下命令完成开心：
 wget https://github.com/LoveesYe/cdnflydadao/raw/main/cdnfly/api.py -O /opt/venv/lib/python2.7/site-packages/requests/api.py
 supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf reload
@@ -47,6 +41,12 @@ supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf reload
 主控登录地址为: http://主控IP/
 管理员账号和密码： admin/cdnfly
 普通用户账号和密码： jason/cdnfly
+
+### 官方最新公告
+尊敬的cdnfly用户:
+目前发现登录安全漏洞，需要及时按照如下方法来临时修复。找-个只有你知道的域名,这个域名用于管理员登录。
+如的域名，不用带http://,路径为:系统管理--->系统设置--->用户相关，限制管理员只能从此域名登录
+
 
 如果旧版本要升级，可以先更新自建云端的文件，然后执行“已安装过官方版的开心方法”这一部分的命令，最后在主控后台升级。
 
@@ -58,35 +58,32 @@ supervisorctl -c /opt/cdnfly/master/conf/supervisord.conf reload
 /opt/cdnfly/master/panel/src/views/system/update/index.html
 
 
-##迁移主控
+### 迁移主控
 注意：下面的迁移步骤不包括迁移elasticsearch的数据
-###1 备份旧主控数据
+#### 1 备份旧主控数据
 在旧主控执行如下命令开始备份（注意：备份前会停止旧主控的进程）
-
 cd /root
 curl http://us.centos.bz/cdnfly/backup_master.sh -o backup_master.sh
 chmod +x backup_master.sh
 ./backup_master.sh
-这时候将在目录/root下，打包生成cdn.sql.gz文件，请把这个文件传输到新主控的/root/目录下，可以使用scp命令，命令如下：
 
+这时候将在目录/root下，打包生成cdn.sql.gz文件，请把这个文件传输到新主控的/root/目录下，可以使用scp命令，命令如下：
 cd /root
 scp cdn.sql.gz   root@新主控IP:/root/
-###2 在新机器安装好主控程序
+
+#### 2 在新机器安装好主控程序
 首先登录cdnfly.cn，更新授权为新主控ip，并清空机器码
 登录旧主控机器，执行如下命令查看版本:
-
 grep VERSION_NAME /opt/cdnfly/master/conf/config.py
 如下图，版本为v4.1.6：
 
 登录新机器，执行如下命令安装:
-
 curl http://dl.cdnfly.cn/cdnfly/master.sh -o master.sh
 chmod +x master.sh
 ./master.sh --ver v4.1.60
 其中v4.1.60替换成自己的主控版本号
-###3 登录新主控，恢复备份
-执行如下命令恢复
-
+#### 3 登录新主控，恢复备份
+执行如下命令恢复备份
 cd /root
 curl http://us.centos.bz/cdnfly/restore_master.sh -o restore_master.sh
 chmod +x restore_master.sh
@@ -94,7 +91,6 @@ chmod +x restore_master.sh
 从旧主控下载/opt/cdnfly/master/conf/config.py上传到新主控覆盖
 然后在新主控初始化es,重启新主控
 执行如下命令初始化:
-
 cd /tmp
 wget us.centos.bz/cdnfly/int_es.sh -O int_es.sh
 chmod +x int_es.sh
@@ -102,9 +98,8 @@ chmod +x int_es.sh
 supervisorctl restart all
 其中/var/lib/elasticsearch为es的数据目录，可以更改成其它的，比如/home/es
 
-###4 替换节点里的主控IP
+#### 4 替换节点里的主控IP
 一个个登录节点，执行如下命令替换
-
 new_master_ip="这里替换为新主控IP"
 sed -i "s/ES_IP =.*/ES_IP = \"$new_master_ip\"/" /opt/cdnfly/agent/conf/config.py
 sed -i "s/MASTER_IP.*/MASTER_IP = \"$new_master_ip\"/g" /opt/cdnfly/agent/conf/config.py
