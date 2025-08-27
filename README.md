@@ -16,8 +16,18 @@
 #### 1.主控验证服务器
 web目录为验证文件，请自行搭建
 0.0.0.0改成(自己搭建的验证服务器Ip)
+
 nano /etc/hosts
+
 0.0.0.0  auth.cdnfly.cn monitor.cdnfly.cn
+
+伪静态
+
+location / {
+  if (!-e $request_filename){
+    rewrite  ^(.*)$  /index.php/$1  last;   break;
+  }
+}
 
 #### 2.主控
 v5.1.11版本安装脚本:
@@ -119,9 +129,13 @@ supervisorctl restart all
 new_master_ip="这里替换为新主控IP"
 
 sed -i "s/ES_IP =.*/ES_IP = \"$new_master_ip\"/" /opt/cdnfly/agent/conf/config.py
+
 sed -i "s/MASTER_IP.*/MASTER_IP = \"$new_master_ip\"/g" /opt/cdnfly/agent/conf/config.py
+
 sed -i "s/hosts:.*/hosts: [\"$new_master_ip:9200\"]/" /opt/cdnfly/agent/conf/filebeat.yml
+
 logs_path=`awk '/error_log/{print $2}'  /usr/local/openresty/nginx/conf/nginx.conf | sed 's/error.log//'`
+
 if [[ `echo $logs_path | grep ^/ ` != ""  ]];then
     sed -i "s#.*access.log#    - $logs_path/access.log#" /opt/cdnfly/agent/conf/filebeat.yml
     sed -i "s#.*stream.log#    - $logs_path/stream.log#" /opt/cdnfly/agent/conf/filebeat.yml
